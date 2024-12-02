@@ -9,23 +9,27 @@
             font-family:Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
             font-weight: 200;
             font-size: 10px;
+            color-scheme: dark;
         }
         #visualization {
             display: flex;
             flex-direction: column;
             gap: 10px;
             font-family: Arial, sans-serif;
+            
         }
         .bucket-container {
             display: flex;
             align-items: center;
-            border: 1px solid #ddd;
+            border: 1px solid #e7e0e0;
             padding: 5px;
+            max-width: max-content;
+            
         }
         .bucket-index {
             margin-right: 10px;
             font-weight: bold;
-            min-width: 50px;
+            min-width: 10px;
         }
         .linked-list {
             display: flex;
@@ -34,12 +38,13 @@
         }
         .node {
             background-color: #f0f0f0;
-            border: 1px solid #ccc;
-            padding: 5px;
+            border:none;
+            padding: 7px;
             border-radius: 5px;
-            display: flex;
+            display: block;
             flex-direction: column;
             align-items: center;
+            color: #888;
         }
         .arrow {
             font-size: 20px;

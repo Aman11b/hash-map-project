@@ -16,7 +16,7 @@ A custom HashMap implementation from scratch with step-by-step development.
 - [x] Visualization
 - [x] Get Method
 - [x] Has Method
-- [ ] Remove Method
+- [x] Remove Method
 - [ ] Length Method
 - [ ] Keys/Values/Entries Methods
 

@@ -148,10 +148,30 @@ const HashMap=()=>{
 
     };
 
+    const remove=(key)=>{
+        if(typeof key!=='string'){
+            throw new Error("Key must be a string");
+        }
+
+        const index=hash(key);
+        const bucket=buckets[index];
+
+        for(let i=0;i<bucket.length;i++){
+            if(bucket[i][0]===key){
+                bucket.splice(i,1);
+                size--;
+
+                visualizeBuckets();
+            }
+        }
+        return false;
+    };
+
     return{
         set,
         get,
         has,
+        remove,
         hash,
         visualizeBuckets
     };
@@ -189,5 +209,16 @@ document.addEventListener('DOMContentLoaded', () => {
     hasTestKeys.forEach(key => {
         const exists = hashMap.has(key);
         console.log(`Has ${key}?: ${exists}`);
+    });
+
+    // Demonstrate remove method
+    console.log('Remove Tests:');
+    const removeTestKeys = ['apple', 'cat', 'nonexistent'];
+    removeTestKeys.forEach(key => {
+        const removed = hashMap.remove(key);
+        console.log(`Removing ${key}: ${removed ? 'Successful' : 'Not Found'}`);
+        
+        // Check existence after removal
+        console.log(`Has ${key} after removal?: ${hashMap.has(key)}`);
     });
 });
