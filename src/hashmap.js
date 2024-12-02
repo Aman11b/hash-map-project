@@ -17,26 +17,56 @@ const HashMap=()=>{
         return hashCode;
     };
 
-    const visualizeBuckets=()=>{
-        const container=document.getElementById('Visualization');
-        container.innerHTML='';
+    const visualizeBuckets = () => {
+        const container = document.getElementById('visualization');
+        container.innerHTML = ''; // Clear previous visualization
 
-        buckets.forEach((bucket,index)=>{
-            if(bucket.length>0){
-                const bucketEl=document.createElement('div');
-                bucketEl.classList='bucket';
-                bucketEl.innerHTML=`
-                    <strong>Bucket ${index}:</strong>
-                    ${bucket.map(([k,v])=>`${k}:${v}`).join('<br>')}
-                `;
-                container.appendChild(bucketEl);
+        // Overall stats
+        const statsEl = document.createElement('div');
+        statsEl.textContent = `Total Entries: ${size} | Buckets: ${buckets.length}`;
+        container.appendChild(statsEl);
+
+        // Visualize each bucket
+        buckets.forEach((bucket, index) => {
+            if (bucket.length > 0) {
+                const bucketContainer = document.createElement('div');
+                bucketContainer.className = 'bucket-container';
+
+                // Bucket index
+                const indexEl = document.createElement('div');
+                indexEl.className = 'bucket-index';
+                indexEl.textContent = `Bucket ${index}`;
+                bucketContainer.appendChild(indexEl);
+
+                // Linked list representation
+                const linkedList = document.createElement('div');
+                linkedList.className = 'linked-list';
+
+                bucket.forEach(([key, value], nodeIndex) => {
+                    // Create node
+                    const nodeEl = document.createElement('div');
+                    nodeEl.className = 'node';
+                    nodeEl.innerHTML = `
+                        <strong>Key:</strong> ${key}<br>
+                        <strong>Value:</strong> ${value}
+                    `;
+                    linkedList.appendChild(nodeEl);
+
+                    // Add arrow between nodes (except for last node)
+                    if (nodeIndex < bucket.length - 1) {
+                        const arrowEl = document.createElement('div');
+                        arrowEl.className = 'arrow';
+                        arrowEl.textContent = '→';
+                        linkedList.appendChild(arrowEl);
+                    }
+                });
+
+                bucketContainer.appendChild(linkedList);
+                container.appendChild(bucketContainer);
             }
         });
-
-        const sizeEl=document.createElement('div');
-        sizeEl.textContent=`Total Entries: ${size} | Buckets: ${buckets.length}`;
-        container.prepend(sizeEl);
     };
+
 
     const set=(key,value)=>{
         if(typeof key !=='string'){
