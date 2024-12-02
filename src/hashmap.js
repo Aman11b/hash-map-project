@@ -167,11 +167,58 @@ const HashMap=()=>{
         return false;
     };
 
+    const length=()=>{
+        return size;
+    };
+
+    const keys=()=>{
+        const allKeys=[];
+
+        buckets.forEach(bucket=>{
+            bucket.forEach(([key])=>{
+                allKeys.push(key);
+            });
+        });
+        return allKeys;
+    };
+
+    const values=()=>{
+        const allValues=[];
+
+        buckets.forEach(bucket=>{
+            bucket.forEach(([,value])=>{
+                allValues.push(value);
+            });
+        });
+
+        return allValues;
+    };
+
+    // New entries() method
+    const entries = () => {
+        const allEntries = [];
+        
+        // Iterate through all buckets
+        buckets.forEach(bucket => {
+            bucket.forEach(entry => {
+                allEntries.push(entry);
+            });
+        });
+
+        return allEntries;
+    };
+
+
+
     return{
         set,
         get,
         has,
         remove,
+        length,
+        keys,
+        values,
+        entries,
         hash,
         visualizeBuckets
     };
@@ -221,4 +268,26 @@ document.addEventListener('DOMContentLoaded', () => {
         // Check existence after removal
         console.log(`Has ${key} after removal?: ${hashMap.has(key)}`);
     });
+
+    // Demonstrate new methods
+    console.log('Length Test:');
+    console.log(`Total entries: ${hashMap.length()}`);
+
+    console.log('\nKeys Test:');
+    console.log('All Keys:', hashMap.keys());
+
+    console.log('\nValues Test:');
+    console.log('All Values:', hashMap.values());
+
+    console.log('\nEntries Test:');
+    console.log('All Entries:', hashMap.entries());
+
+    // Demonstrate method behavior after removal
+    console.log('\nAfter Removing "apple"');
+    hashMap.remove('apple');
+
+    console.log('Updated Length:', hashMap.length());
+    console.log('Updated Keys:', hashMap.keys());
+    console.log('Updated Values:', hashMap.values());
+    console.log('Updated Entries:', hashMap.entries());
 });
