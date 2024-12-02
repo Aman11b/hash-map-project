@@ -19,6 +19,8 @@ A custom HashMap implementation from scratch with step-by-step development.
 - [x] Remove Method
 - [x] Length Method
 - [x] Keys/Values/Entries Methods
+- [x] Clear Method
+- [x] Reset and Resize Methods
 
 ## How to Run
 Open `index.html` in a modern browser

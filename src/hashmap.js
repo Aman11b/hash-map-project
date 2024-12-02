@@ -5,6 +5,7 @@ const HashMap=()=>{
     let buckets = new Array(DEFAULT_CAPACITY).fill(null).map(() => []);
     let loadFactor=DEFAULT_LOAD_FACTOR;
     let size=0;
+    let capacity=DEFAULT_CAPACITY;
 
     const hash=(key)=>{
         let hashCode=0;
@@ -118,9 +119,11 @@ const HashMap=()=>{
         return null;
     };
 
-    const resize=()=>{
+    const resize=(newCapacity)=>{
         const oldBuckets=buckets;
+
         buckets=new Array(buckets.length*2).fill(null).map(()=>[]);
+        capacity=newCapacity;
         size=0;
 
         oldBuckets.forEach((bucket=>{
@@ -128,6 +131,8 @@ const HashMap=()=>{
                 set(key,value);
             });
         }));
+
+        visualizeBuckets();
     };
 
     const has=(key)=>{
@@ -208,6 +213,43 @@ const HashMap=()=>{
         return allEntries;
     };
 
+    const clear=()=>{
+        buckets=new Array(DEFAULT_CAPACITY).fill(null).map(()=>[]);
+        size=0;
+        capacity=DEFAULT_CAPACITY;
+
+        visualizeBuckets();
+    };
+
+    const reset=(newCapacity=DEFAULT_CAPACITY,newLoadFactor=DEFAULT_LOAD_FACTOR)=>{
+        // Validate input
+        if (typeof newCapacity !== 'number' || newCapacity <= 0) {
+            throw new Error('Capacity must be a positive number');
+        }
+
+        if (typeof newLoadFactor !== 'number' || newLoadFactor <= 0 || newLoadFactor > 1) {
+            throw new Error('Load factor must be a number between 0 and 1');
+        }
+
+        // Reset with new parameters
+        buckets = new Array(newCapacity).fill(null).map(() => []);
+        size = 0;
+        capacity = newCapacity;
+        loadFactor = newLoadFactor;
+
+        // Update visualization
+        visualizeBuckets();
+    };
+    // Debugging and diagnostic methods
+    const getDebugInfo = () => ({
+        size,
+        capacity,
+        loadFactor,
+        bucketDistribution: buckets.map(bucket => bucket.length),
+        loadPercentage: (size / capacity * 100).toFixed(2) + '%'
+    });
+
+
 
 
     return{
@@ -219,6 +261,10 @@ const HashMap=()=>{
         keys,
         values,
         entries,
+        clear,
+        reset,
+        resize,
+        getDebugInfo,
         hash,
         visualizeBuckets
     };
@@ -290,4 +336,36 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('Updated Keys:', hashMap.keys());
     console.log('Updated Values:', hashMap.values());
     console.log('Updated Entries:', hashMap.entries());
+
+
+    console.log('Initial State:');
+    console.log('Debug Info:', hashMap.getDebugInfo());
+
+    console.log('\nBefore Clear:');
+    console.log('Keys:', hashMap.keys());
+
+    // Demonstrate clear method
+    hashMap.clear();
+
+    console.log('\nAfter Clear:');
+    console.log('Keys:', hashMap.keys());
+    console.log('Debug Info:', hashMap.getDebugInfo());
+
+    // Demonstrate reset with custom parameters
+    console.log('\nResetting with custom parameters:');
+    hashMap.reset(32, 0.6);
+    
+    // Repopulate with test data
+    testData.forEach(([key, value]) => {
+        hashMap.set(key, value);
+    });
+
+    console.log('After Reset:');
+    console.log('Debug Info:', hashMap.getDebugInfo());
+
+    // Demonstration of resize
+    console.log('\nResizing:');
+    hashMap.resize(64);
+    console.log('After Resize Debug Info:', hashMap.getDebugInfo());
+
 });
