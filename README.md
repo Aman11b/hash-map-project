@@ -10,9 +10,15 @@ A custom HashMap implementation from scratch with step-by-step development.
 
 ## Development Stages
 - [x] Project Setup
-- [ ] Implement `set()` method
-- [ ] Implement `get()` method
-...
+- [x] Basic Hash Function
+- [x] Set Method Implementation
+- [x] Collision Handling
+- [x] Visualization
+- [x] Get Method
+- [x] Has Method
+- [ ] Remove Method
+- [ ] Length Method
+- [ ] Keys/Values/Entries Methods
 
 ## How to Run
 Open `index.html` in a modern browser

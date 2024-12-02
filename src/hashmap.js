@@ -130,9 +130,28 @@ const HashMap=()=>{
         }));
     };
 
+    const has=(key)=>{
+        if(typeof key!=='string'){
+            throw new Error("Key must be a string");
+        }
+
+        const index=hash(key);
+        const bucket=buckets[index];
+
+        for(let i=0;i<bucket.length;i++){
+            if(bucket[i][0]===key){
+                return true;
+            }
+        }
+
+        return false;
+
+    };
+
     return{
         set,
         get,
+        has,
         hash,
         visualizeBuckets
     };
@@ -162,5 +181,13 @@ document.addEventListener('DOMContentLoaded', () => {
     testKeys.forEach(key => {
         const value = hashMap.get(key);
         console.log(`Getting ${key}: ${value !== null ? value : 'Not Found'}`);
+    });
+
+    // Demonstrate has method
+    console.log('Has Tests:');
+    const hasTestKeys = ['apple', 'cat', 'nonexistent', 'banana'];
+    hasTestKeys.forEach(key => {
+        const exists = hashMap.has(key);
+        console.log(`Has ${key}?: ${exists}`);
     });
 });
