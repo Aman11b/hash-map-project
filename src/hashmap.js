@@ -101,6 +101,23 @@ const HashMap=()=>{
         visualizeBuckets();
     };
 
+    const get=(key)=>{
+        if(typeof key!=='string'){
+            throw new Error("Key must be a string");
+        }
+
+        const index=hash(key);
+        const bucket=buckets[index];
+
+        for(let i=0;i<bucket.length;i++){
+            if(bucket[i][0]===key){
+                return bucket[i][1];
+            }
+        }
+
+        return null;
+    };
+
     const resize=()=>{
         const oldBuckets=buckets;
         buckets=new Array(buckets.length*2).fill(null).map(()=>[]);
@@ -115,6 +132,7 @@ const HashMap=()=>{
 
     return{
         set,
+        get,
         hash,
         visualizeBuckets
     };
@@ -136,5 +154,13 @@ document.addEventListener('DOMContentLoaded', () => {
     testData.forEach(([key, value]) => {
         console.log(`Setting ${key}: ${value}`);
         hashMap.set(key, value);
+    });
+
+    // Demonstrate get method
+    console.log('Get Tests:');
+    const testKeys = ['apple', 'cat', 'nonexistent'];
+    testKeys.forEach(key => {
+        const value = hashMap.get(key);
+        console.log(`Getting ${key}: ${value !== null ? value : 'Not Found'}`);
     });
 });
